@@ -1,6 +1,6 @@
 <?php
 
-include 'main.php';
+include 'src/main.php';
 use PHPUnit\Framework\TestCase;
 
 class FizzBuzzTest extends TestCase

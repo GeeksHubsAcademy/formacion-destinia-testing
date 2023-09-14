@@ -3,4 +3,4 @@ install:
 init:
 	phpunit --generate-configuration
 test:
-	./vendor/bin/phpunit test.php --colors=always
+	phpunit
