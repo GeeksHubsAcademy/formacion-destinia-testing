@@ -29,22 +29,33 @@ class FizzBuzzTest extends TestCase
         $value = $this->fizzbuzz->run(5);
         $this->assertEquals($value, $expected);
     }
-    // stub method step to return a fixed value A
-    public function testValidateIterations()
+    // Mock a method step to return a fixed value A
+    public function testOnlyRunMethod()
     {
-        // create a stub of MyClass
-        $myClassStub = $this->getMockBuilder(FizzBuzz::class)
-                            ->onlyMethods(['step'])
-                            ->getMock();
+
+        $mock = $this->getMockBuilder(FizzBuzz::class)
+            ->onlyMethods(['step'])
+            ->getMock();
 
         // configure the stub to return a fixed value
-        $myClassStub->method('step')->willReturn('A');
+        $mock->method('step')->willReturn('A');
 
         // call the method being tested
-        $result = $myClassStub->run(2);
+        $result = $mock->run(2);
 
         // assert that the method returned the expected value
         $this->assertEquals('A\nA\n', $result);
+    }
 
+    public function testStepMethodHaveBeenCalled()
+    {
+        $mock = $this->getMockBuilder(FizzBuzz::class)
+            ->onlyMethods(['step'])
+            ->getMock();
+
+        $mock->expects($this->exactly(5))
+            ->method('step');
+
+        $mock->run(5);
     }
 }
