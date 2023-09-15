@@ -1,28 +1,28 @@
 // read all folders in the enunciados folder
 
-import { readdirSync,writeFileSync, readFileSync, rmdirSync } from 'node:fs';
+import { readdirSync, writeFileSync, readFileSync, rmdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const enunciadosPath = './phpunit/enunciados'
 
 const enunciados = readdirSync(enunciadosPath, { withFileTypes: true })
 
-    // only directories
-    // .filter(dirent => dirent.isDirectory())
-    // onlyFiles
-    .filter(dirent => dirent.isFile())
+// only directories
+const folders = enunciados.filter(dirent => dirent.isDirectory())
+// onlyFiles
+const files = enunciados.filter(dirent => dirent.isFile())
 
-console.log(enunciados.map(dirent => dirent.name));
+// console.log(enunciados.map(dirent => dirent.name));
 
 // rename README.md to {FOLDER_NAME}.readme.md
-// enunciados.forEach(dirent => {
+// folders.forEach(dirent => {
 //     const oldPath = join(enunciadosPath, dirent.name, 'README.md')
 //     const newPath = join(enunciadosPath, `${dirent.name}.readme.md`)
 //     writeFileSync(newPath, readFileSync(oldPath));
 // })
 
-// remove all folders found in the enunciados folder
-// enunciados.forEach(dirent => {
+// // remove all folders found in the enunciados folder
+// folders.forEach(dirent => {
 
 
 //     const oldPath = join(enunciadosPath, dirent.name)
@@ -31,7 +31,7 @@ console.log(enunciados.map(dirent => dirent.name));
 // }   )
 
 // rename the files in the enunciados folder with the first line of the file
-enunciados.forEach(dirent => {
+files.forEach(dirent => {
     const oldPath = join(enunciadosPath, dirent.name)
 
     const content = readFileSync(oldPath, { encoding: 'utf-8' })
@@ -44,11 +44,11 @@ enunciados.forEach(dirent => {
     // const regex = /[^a-zA-Z0-9]/g;
     const regex = /[^a-zA-Z0-9\u00C0-\u00FF]/g;
 
-    const newName = firstLine.replace('#','').trim().replace(regex, '_').toLowerCase() + '.md'
-    const newPath = join(enunciadosPath,newName )
-    console.log(newName);
+    const newName = firstLine.replace('#', '').trim().replace(regex, '_').toLowerCase() + '.md'
+    const newPath = join(enunciadosPath, newName)
+    console.log(oldPath,newName);
 
 
 
-    writeFileSync(newPath, oldPath);
+    writeFileSync(newPath, content);
 });
