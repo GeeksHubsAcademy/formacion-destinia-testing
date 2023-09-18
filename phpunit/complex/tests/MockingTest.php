@@ -35,4 +35,15 @@ class MockingTest extends TestCase
         $sut->methodToBeMockedA();
     }
 
+    public function testSpyOriginal() {
+        $sut = $this->getMockBuilder(ClassToBeMocked::class)
+            ->enableOriginalConstructor()
+            ->enableOriginalClone()
+            ->enableProxyingToOriginalMethods()
+            ->getMock();
+
+
+        $this->assertEquals('A', $sut->methodToBeMockedA());
+    }
+
 }
