@@ -1,6 +1,6 @@
 <?php
 class FizzBuzz {
-  public function step($number) {
+  protected function step($number) {
     if ($number % 15 === 0) {
       return 'GeeksHubs';
     }
