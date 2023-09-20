@@ -19,31 +19,30 @@ class MockingTest extends TestCase
 {
     public function testMock()
     {
-        $sut = $this->createMock(ClassToBeMocked::class);
-        $sut->method('methodToBeMockedA')->willReturn('C');
-        $this->assertEquals('C', $sut->methodToBeMockedA());
-        $this->assertEquals(null, $sut->methodToBeMockedB());
+        $mock = $this->createMock(ClassToBeMocked::class);
+        $mock->method('methodToBeMockedA')->willReturn('C');
+        $this->assertEquals('C', $mock->methodToBeMockedA());
+        $this->assertEquals(null, $mock->methodToBeMockedB());
     }
 
     public function testSpyMock() {
-        $sut = $this->createMock(ClassToBeMocked::class);
+        $mock = $this->createMock(ClassToBeMocked::class);
 
-        $sut->expects($this->exactly(2))
+        $mock->expects($this->exactly(2))
             ->method('methodToBeMockedA')
             ->willReturn('C');
-        $this->assertEquals('C', $sut->methodToBeMockedA());
-        $sut->methodToBeMockedA();
+        $this->assertEquals('C', $mock->methodToBeMockedA());
+        $mock->methodToBeMockedA();
     }
 
     public function testSpyOriginal() {
-        $sut = $this->getMockBuilder(ClassToBeMocked::class)
-            ->enableOriginalConstructor()
-            ->enableOriginalClone()
-            ->enableProxyingToOriginalMethods()
+        $mock = $this->getMockBuilder(ClassToBeMocked::class)
+            // ->enableProxyingToOriginalMethods()
+            ->onlyMethods([])
             ->getMock();
 
 
-        $this->assertEquals('A', $sut->methodToBeMockedA());
+        $this->assertEquals('A', $mock->methodToBeMockedA());
     }
 
 }
