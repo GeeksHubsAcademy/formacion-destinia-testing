@@ -1,6 +1,6 @@
 <?php
 
-include 'src/main.php';
+include 'src/fizzbuzz.php';
 
 use PHPUnit\Framework\TestCase;
 
