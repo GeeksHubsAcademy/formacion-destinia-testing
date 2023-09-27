@@ -10,7 +10,7 @@ class Sudoku
         $this->rows = $rows;
     }
 
-    private function isSolvedGeneric($array) {
+    public function isSolvedGeneric($array) {
         sort($array);
         $expected = [1,2,3,4,5,6,7,8,9];
         return $array == $expected;
@@ -25,10 +25,10 @@ class Sudoku
 
     }
 
-    public function isColumnSolved($colum) {
+    public function isColumnSolved($column) {
         $currentColumn = [];
         foreach ($this->rows as $row) {
-            $currentColumn[] = $row[$colum];
+            $currentColumn[] = $row[$column];
         }
 
         return $this->isSolvedGeneric($currentColumn);
