@@ -8,4 +8,4 @@ test:
 	phpunit
 
 test-watch:
-	./vendor/spatie/phpunit-watcher/phpunit-watcher watch --filter=SudokuTest
+	./vendor/spatie/phpunit-watcher/phpunit-watcher watch --filter=MockingTest
