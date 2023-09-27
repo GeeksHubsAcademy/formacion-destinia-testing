@@ -10,28 +10,64 @@ class Sudoku
         $this->rows = $rows;
     }
 
+    private function isSolvedGeneric($array) {
+        sort($array);
+        $expected = [1,2,3,4,5,6,7,8,9];
+        return $array == $expected;
+    }
+
     public function isRowSolved($row)
     {
-        // sort($this->rows[$row]);
-        // $rowAsString = implode('', $this->rows[$row]);
-        // return preg_match('/^[1-9]{9}$/', $rowAsString) === 1;
 
         $currentRow = $this->rows[$row];
-        sort($currentRow);
-        $expectedRow = [1,2,3,4,5,6,7,8,9];
-        return $currentRow == $expectedRow;
+        return $this->isSolvedGeneric($currentRow);
 
 
-        // $currentRow = $this->rows[$row];
-        // $uniqueNumbers = array_unique($currentRow);
-        // if (count($uniqueNumbers) != 9) {
-        //     return false;
-        // }
-        // foreach ($uniqueNumbers as $number) {
-        //     if ($number < 1 || $number > 9) {
-        //         return false;
-        //     }
-        // }
-        // return true;
+    }
+
+    public function isColumnSolved($colum) {
+        $currentColumn = [];
+        foreach ($this->rows as $row) {
+            $currentColumn[] = $row[$colum];
+        }
+
+        return $this->isSolvedGeneric($currentColumn);
+    }
+
+    public function isSubgridSolved($index) {
+        // index 0 is first subgrid 3 x 3 top left
+        // index 1 is second subgrid 3 x 3 top middle
+        // ...
+
+        $currentSubgrid = [];
+        $rowIndex = floor($index / 3) * 3;
+        $columnIndex = ($index % 3) * 3;
+
+        for ($i = $rowIndex; $i < $rowIndex + 3; $i++) {
+            for ($j = $columnIndex; $j < $columnIndex + 3; $j++) {
+                $currentSubgrid[] = $this->rows[$i][$j];
+            }
+        }
+
+        return $this->isSolvedGeneric($currentSubgrid);
+
+
+
+    }
+
+    public function isSolved() {
+        for ($i = 0; $i < 9; $i++) {
+            if (!$this->isRowSolved($i)) {
+                return false;
+            }
+            if (!$this->isColumnSolved($i)) {
+                return false;
+            }
+            if (!$this->isSubgridSolved($i)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
