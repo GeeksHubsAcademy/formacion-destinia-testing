@@ -280,7 +280,7 @@ class SudokuTest extends TestCase
 
                 ]
             ],
-            'invalid mis match length 2' => [
+            'invalid miss match length 2' => [
                 false,
                 [
                     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -359,30 +359,9 @@ class SudokuTest extends TestCase
 
 
 
-    // public function testGetRestValues1() {
-
-
-    //     $sudoku = new Sudoku([]);
-    //     $rest = $sudoku->getRestValues([0,0,0,0,0,0,0,0,0]);
-
-    //     $this->assertEquals([1,2,3,4,5,6,7,8,9], $rest);
-
-
-    // }
-    // public function testGetRestValues2() {
-
-
-    //     $sudoku = new Sudoku([]);
-    //     $rest = $sudoku->getRestValues([1,2,3,4,5,6,7,8,9]);
-
-    //     $this->assertEquals([], $rest);
-
-
-    // }
     static function restDataProvider()
     {
 
-        // all commented code above is replaced by this dataProvider
         return           [
             'none' =>
             [
@@ -407,23 +386,26 @@ class SudokuTest extends TestCase
     /**
      * @dataProvider restDataProvider
      */
-    public function testGetRestValues($input, $output) {
+    public function testGetRestValues($input, $output)
+    {
 
-            $sudoku = new Sudoku([]);
-            $this->assertEquals($output, $sudoku->getRestValues($input));
+        $sudoku = new Sudoku([]);
+        $this->assertEquals($output, $sudoku->getRestValues($input));
     }
 
 
 
-    public function testGetSubgridIndex() {
-        $sudoku = new Sudoku( [ ]);
-        $this->assertEquals(0, $sudoku->getSubgridIndex(0,0));
-        $this->assertEquals(1, $sudoku->getSubgridIndex(3,2));
-        $this->assertEquals(8, $sudoku->getSubgridIndex(8,8));
+    public function testGetSubgridIndex()
+    {
+        $sudoku = new Sudoku([]);
+        $this->assertEquals(0, $sudoku->getSubgridIndex(0, 0));
+        $this->assertEquals(1, $sudoku->getSubgridIndex(3, 2));
+        $this->assertEquals(8, $sudoku->getSubgridIndex(8, 8));
     }
 
-    public function testSetCellOnlyValue() {
-        $sudoku = new Sudoku( [
+    public function testSetCellUniqueValue()
+    {
+        $sudoku = new Sudoku([
             [0, 2, 3, 4, 5, 6, 7, 8, 9],
             [4, 5, 6, 7, 8, 9, 1, 2, 3],
             [7, 8, 9, 1, 2, 3, 4, 5, 6],
@@ -437,12 +419,93 @@ class SudokuTest extends TestCase
             [8, 9, 7, 2, 3, 1, 5, 6, 4],
         ]);
 
-        $sudoku->setCellOnlyValue(8,8);
+        $hasBeenSet = $sudoku->setCellUniqueValue(8, 8);
+        $this->assertEquals(false, $hasBeenSet);
+
         $this->assertEquals(4, $sudoku->getGrid()[8][8]);
 
-        $sudoku->setCellOnlyValue(0,0);
+        $hasBeenSet = $sudoku->setCellUniqueValue(0, 0);
+        $this->assertEquals(true, $hasBeenSet);
+
         $this->assertEquals(1, $sudoku->getGrid()[0][0]);
+    }
+
+    public function testSetCellUniqueValueImposible()
+    {
+        $sudoku = new Sudoku([
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+
+        ]);
+
+        // must return false if is imposible to set a value
+        $this->assertEquals(false, $sudoku->setCellUniqueValue(0, 0));
+
+    }
+    public function testSetCellUniqueValues_posible()
+    {
+        $sudoku = new Sudoku([
+            [0, 2, 3, 4, 5, 6, 7, 8, 9],
+            [4, 5, 6, 7, 8, 9, 1, 2, 3],
+            [7, 8, 9, 1, 2, 3, 4, 5, 6],
+
+            [3, 1, 2, 6, 4, 5, 9, 7, 8],
+            [6, 4, 5, 9, 0, 8, 3, 1, 2],
+            [9, 7, 8, 3, 1, 2, 6, 4, 5],
+
+            [2, 3, 1, 5, 6, 4, 8, 9, 7],
+            [5, 6, 4, 8, 9, 7, 0, 3, 1],
+            [8, 9, 7, 2, 3, 1, 5, 6, 4],
+        ]);
+
+        $sudoku->setCellUniqueValues();
+
+        $this->assertEquals(true, $sudoku->isSolved());
+
+        $this->assertEquals(
+            $sudoku->getGrid(),
+            [
+                [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                [4, 5, 6, 7, 8, 9, 1, 2, 3],
+                [7, 8, 9, 1, 2, 3, 4, 5, 6],
+
+                [3, 1, 2, 6, 4, 5, 9, 7, 8],
+                [6, 4, 5, 9, 7, 8, 3, 1, 2],
+                [9, 7, 8, 3, 1, 2, 6, 4, 5],
+
+                [2, 3, 1, 5, 6, 4, 8, 9, 7],
+                [5, 6, 4, 8, 9, 7, 2, 3, 1],
+                [8, 9, 7, 2, 3, 1, 5, 6, 4],
+            ]
+
+        );
+    }
+
+    public function testSetCellUniqueValues_imposible()
+    {
+        $sudoku = new Sudoku([
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+
+        ]);
 
 
+        $sudoku->setCellUniqueValues();
+
+        $this->assertEquals(false, $sudoku->isSolved());
     }
 }

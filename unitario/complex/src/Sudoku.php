@@ -139,7 +139,8 @@ class Sudoku
         }
         return $currentSubgrid;
     }
-    public function getRestValues($array) {
+    public function getRestValues($array)
+    {
         $restValues = [];
         for ($i = 1; $i <= 9; $i++) {
             if (!in_array($i, $array)) {
@@ -149,21 +150,24 @@ class Sudoku
         return $restValues;
     }
 
-    public function setOnlyOptionValues() {
+    public function setOnlyOptionValues()
+    {
         // will perform iteration until there is no more changes
 
 
     }
-    public function getSubgridIndex($column, $row) {
+    public function getSubgridIndex($column, $row)
+    {
         $subgridColumn = floor($column / 3);
         $subgridRow = floor($row / 3);
         return $subgridRow * 3 + $subgridColumn;
     }
 
-    public function setCellOnlyValue($column, $row) {
+    public function setCellUniqueValue($column, $row)
+    {
         $currentCell = $this->rows[$row][$column];
         if ($currentCell !== 0) {
-            return true;
+            return false;
         }
         $currentRow = $this->rows[$row];
         $restRowValues = $this->getRestValues($currentRow);
@@ -190,10 +194,23 @@ class Sudoku
         if (count($restSubgridValues) === 1) {
             $this->rows[$row][$column] = array_values($restSubgridValues)[0];
             return true;
-
         }
         return false;
+    }
 
-
+    public function setCellUniqueValues()
+    {
+        $changed = true;
+        while ($changed === true) {
+            $changed = false;
+            for ($i = 0; $i < 9; $i++) {
+                for ($j = 0; $j < 9; $j++) {
+                    if ($this->setCellUniqueValue($i, $j)) {
+                        $changed = true;
+                    }
+                }
+            }
+        }
+        return $changed;
     }
 }
