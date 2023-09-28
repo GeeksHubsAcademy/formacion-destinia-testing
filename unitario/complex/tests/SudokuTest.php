@@ -412,4 +412,37 @@ class SudokuTest extends TestCase
             $sudoku = new Sudoku([]);
             $this->assertEquals($output, $sudoku->getRestValues($input));
     }
+
+
+
+    public function testGetSubgridIndex() {
+        $sudoku = new Sudoku( [ ]);
+        $this->assertEquals(0, $sudoku->getSubgridIndex(0,0));
+        $this->assertEquals(1, $sudoku->getSubgridIndex(3,2));
+        $this->assertEquals(8, $sudoku->getSubgridIndex(8,8));
+    }
+
+    public function testSetCellOnlyValue() {
+        $sudoku = new Sudoku( [
+            [0, 2, 3, 4, 5, 6, 7, 8, 9],
+            [4, 5, 6, 7, 8, 9, 1, 2, 3],
+            [7, 8, 9, 1, 2, 3, 4, 5, 6],
+
+            [3, 1, 2, 6, 4, 5, 9, 7, 8],
+            [6, 4, 5, 9, 7, 8, 3, 1, 2],
+            [9, 7, 8, 3, 1, 2, 6, 4, 5],
+
+            [2, 3, 1, 5, 6, 4, 8, 9, 7],
+            [5, 6, 4, 8, 9, 7, 2, 3, 1],
+            [8, 9, 7, 2, 3, 1, 5, 6, 4],
+        ]);
+
+        $sudoku->setCellOnlyValue(8,8);
+        $this->assertEquals(4, $sudoku->getGrid()[8][8]);
+
+        $sudoku->setCellOnlyValue(0,0);
+        $this->assertEquals(1, $sudoku->getGrid()[0][0]);
+
+
+    }
 }

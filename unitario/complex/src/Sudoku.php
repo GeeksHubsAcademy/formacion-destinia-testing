@@ -4,7 +4,10 @@ class Sudoku
 {
 
     private $rows;
-
+    public function getGrid()
+    {
+        return $this->rows;
+    }
     public function __construct($rows)
     {
         $this->rows = $rows;
@@ -144,5 +147,53 @@ class Sudoku
             }
         }
         return $restValues;
+    }
+
+    public function setOnlyOptionValues() {
+        // will perform iteration until there is no more changes
+
+
+    }
+    public function getSubgridIndex($column, $row) {
+        $subgridColumn = floor($column / 3);
+        $subgridRow = floor($row / 3);
+        return $subgridRow * 3 + $subgridColumn;
+    }
+
+    public function setCellOnlyValue($column, $row) {
+        $currentCell = $this->rows[$row][$column];
+        if ($currentCell !== 0) {
+            return true;
+        }
+        $currentRow = $this->rows[$row];
+        $restRowValues = $this->getRestValues($currentRow);
+
+        if (count($restRowValues) === 1) {
+            $this->rows[$row][$column] = array_values($restRowValues)[0];
+            return true;
+        }
+
+
+        $currentColumn = $this->getColumn($column);
+        $restColumnValues = $this->getRestValues($currentColumn);
+
+
+        if (count($restColumnValues) === 1) {
+            $this->rows[$row][$column] = array_values($restColumnValues)[0];
+            return true;
+        }
+
+
+        $currentSubgrid = $this->getSubgrid($this->getSubgridIndex($column, $row));
+        $restSubgridValues = $this->getRestValues($currentSubgrid);
+
+        if (count($restSubgridValues) === 1) {
+            $this->rows[$row][$column] = array_values($restSubgridValues)[0];
+            return true;
+
+        }
+        return false;
+
+
     }
 }
