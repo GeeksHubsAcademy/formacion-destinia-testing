@@ -447,9 +447,8 @@ class SudokuTest extends TestCase
 
         // must return false if is imposible to set a value
         $this->assertEquals(false, $sudoku->setCellUniqueValue(0, 0));
-
     }
-    public function testSetCellUniqueValues_posible()
+    public function testSolveKnown_posible()
     {
         $sudoku = new Sudoku([
             [0, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -465,7 +464,7 @@ class SudokuTest extends TestCase
             [8, 9, 7, 2, 3, 1, 5, 6, 4],
         ]);
 
-        $sudoku->setCellUniqueValues();
+        $sudoku->solveKnown();
 
         $this->assertEquals(true, $sudoku->isSolved());
 
@@ -488,7 +487,7 @@ class SudokuTest extends TestCase
         );
     }
 
-    public function testSetCellUniqueValues_imposible()
+    public function testSolveKnown_imposible()
     {
         $sudoku = new Sudoku([
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -500,12 +499,112 @@ class SudokuTest extends TestCase
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
-
         ]);
 
 
-        $sudoku->setCellUniqueValues();
+        $sudoku->solveKnown();
 
         $this->assertEquals(false, $sudoku->isSolved());
+    }
+
+    public function testSolve()
+    {
+        $sudoku = new Sudoku([
+            [0, 2, 3, 4, 5, 6, 7, 8, 9],
+            [4, 5, 6, 7, 8, 9, 1, 2, 3],
+            [7, 8, 9, 1, 2, 3, 4, 5, 6],
+
+            [3, 1, 2, 6, 4, 5, 9, 7, 8],
+            [6, 4, 5, 9, 0, 8, 3, 1, 2],
+            [9, 7, 8, 3, 1, 2, 6, 4, 5],
+
+            [2, 3, 1, 5, 6, 4, 8, 9, 7],
+            [5, 6, 4, 8, 9, 7, 0, 3, 1],
+            [8, 9, 7, 2, 3, 1, 5, 6, 4],
+        ]);
+
+        $sudoku->solve();
+
+        $this->assertEquals(true, $sudoku->isSolved());
+
+        $this->assertEquals(
+            $sudoku->getGrid(),
+            [
+                [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                [4, 5, 6, 7, 8, 9, 1, 2, 3],
+                [7, 8, 9, 1, 2, 3, 4, 5, 6],
+
+                [3, 1, 2, 6, 4, 5, 9, 7, 8],
+                [6, 4, 5, 9, 7, 8, 3, 1, 2],
+                [9, 7, 8, 3, 1, 2, 6, 4, 5],
+
+                [2, 3, 1, 5, 6, 4, 8, 9, 7],
+                [5, 6, 4, 8, 9, 7, 2, 3, 1],
+                [8, 9, 7, 2, 3, 1, 5, 6, 4],
+            ]
+
+        );
+    }
+
+    public function testSolve_imposible()
+    {
+        $sudoku = new Sudoku([
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]);
+
+
+        $sudoku->solve();
+
+        $this->assertEquals(true, $sudoku->isSolved());
+    }
+
+    public function testSolveHard()
+    {
+
+        $sudoku = new Sudoku([
+            [0, 3, 7, 0, 9, 0, 0, 0, 0],
+            [4, 0, 0, 0, 0, 5, 6, 0, 0],
+            [0, 0, 0, 0, 0, 0, 9, 7, 0],
+
+            [3, 0, 0, 5, 0, 6, 0, 8, 4],
+            [0, 2, 5, 0, 7, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+
+            [0, 0, 0, 3, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 4, 0],
+            [8, 5, 0, 0, 2, 9, 0, 6, 0]
+        ]);
+
+        $sudoku->solve();
+        $this->assertEquals(true, $sudoku->isSolved());
+    }
+
+    public function testSolveHard2()
+    {
+
+        $sudoku = new Sudoku([
+
+            [6, 0, 0, 0, 0, 0, 4, 0, 0],
+            [0, 8, 0, 0, 0, 7, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 5, 7, 0],
+
+            [0, 0, 9, 7, 0, 5, 0, 0, 4],
+            [0, 0, 6, 0, 4, 0, 9, 0, 0],
+            [3, 0, 0, 9, 0, 0, 0, 0, 0],
+
+            [0, 2, 1, 4, 0, 0, 7, 0, 0],
+            [0, 0, 0, 8, 0, 0, 0, 2, 0],
+            [0, 0, 0, 5, 3, 0, 0, 0, 0]
+        ]);
+        $sudoku->solveOptimum();
+        $this->assertEquals(true, $sudoku->isSolved());
     }
 }

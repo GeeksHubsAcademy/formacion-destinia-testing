@@ -198,7 +198,7 @@ class Sudoku
         return false;
     }
 
-    public function setCellUniqueValues()
+    public function solveKnown()
     {
         $changed = true;
         while ($changed === true) {
@@ -212,5 +212,46 @@ class Sudoku
             }
         }
         return $changed;
+    }
+    public function isValidNumber($row, $col, $num) {
+        $this->rows[$row][$col] = $num;
+
+        $isAllValid = $this->isValid();
+        if ($isAllValid) {
+            $this->rows[$row][$col] = 0;
+            return true;
+        } else {
+            $this->rows[$row][$col] = 0;
+
+            return false;
+        }
+
+
+
+    }
+    public function solve()
+    {
+        for ($row = 0; $row < 9; $row++) {
+            for ($col = 0; $col < 9; $col++) {
+                if ($this->rows[$row][$col] === 0) {
+                    for ($num = 1; $num <= 9; $num++) {
+                        if ($this->isValidNumber($row, $col, $num)) {
+                            $this->rows[$row][$col] = $num;
+                            if ($this->solve()) {
+                                return true;
+                            }
+                            $this->rows[$row][$col] = 0; // Deshacer el intento si no funciona
+                        }
+                    }
+                    return false; // No se puede encontrar una solución válida
+                }
+            }
+        }
+        return true; // Se ha completado correctamente
+    }
+    public function solveOptimum()
+    {
+        $this->solveKnown();
+        $this->solve();
     }
 }
