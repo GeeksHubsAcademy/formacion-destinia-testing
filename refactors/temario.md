@@ -1,0 +1,46 @@
+- Refactoring
+  - code smells:
+    - Duplicated Code.
+    - Long Method.
+    - Large Class.
+    - Excessive use of conditionals
+    - Excessive use of global variables
+    - Unnecessary comments
+    - Unclear variable and method names
+    - Inconsistent naming
+    - Inconsistent formatting
+    - Dead code
+    - Excessive use of inheritance
+    - Dependency on implementation details
+
+  - Clean code:
+    - Meaningful Names.
+    - Small Functions.
+    - Removing unnecessary arguments.
+    - Use comments only when necessary.
+    - Error handling.
+    - Avoid duplicate code.
+    - Single Responsibility Principle.
+    - Dependency Inversion Principle.
+    - Refactor regularly.
+    - Write tests.
+    - Formatting code.
+
+
+  - Refactoring Techniques:
+    - Composing Methods:
+    - Extract Method.
+    - Inline Method.
+    - Inline Temp.
+    - Replace Temp with Query.
+    - Explaining Variable.
+    - Split Temporary Variable.
+    - Replace Magic Number with Constant
+    - Decompose Conditional.
+    - Replace Nested Conditional with Guard Clauses
+    - Remove Dead Code.
+    - Moving Features Between Objects.
+    - Simplifying Conditional Expressions.
+    - Making method calls simpler.
+    - Dealing with Generalization.
+  - Big Refactors.
