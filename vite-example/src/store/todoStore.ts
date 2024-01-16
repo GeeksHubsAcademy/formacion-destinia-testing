@@ -41,6 +41,7 @@ export const finish = (id: number) => {
     todoStore.doneList.push({ ...todoStore.todoList[idx] })
     todoStore.todoList.splice(idx, 1)
   }
+  persistToLocalStorage();
 
 }
 
@@ -52,4 +53,5 @@ export const remove = (id: number) => {
       todoStore.id = 0
     }
   }
+  persistToLocalStorage();
 }

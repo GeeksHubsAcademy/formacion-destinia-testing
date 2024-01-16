@@ -13,6 +13,7 @@
           Todo
         </router-link>
         <router-link
+          data-testId="link-done"
           :class="`py-1 px-3 rounded-md text-white font-bold select-none ml-4 ${
             route.name === R.DONE ? 'bg-green-600' : ''
           }`"
@@ -26,14 +27,18 @@
           <svg class="w-5 inline-block fill-current" viewBox="0 0 24 24">
             <path :d="mdiCheckCircleOutline" />
           </svg>
-          <span class="ml-1">{{ todoStore.todoList.length }}</span>
+          <span
+          data-testid="todos-count"
+          class="ml-1">{{ todoStore.todoList.length }}</span>
         </div>
 
         <div v-if="todoStore.doneList.length" class="flex items-center">
           <svg class="w-5 inline-block fill-current" viewBox="0 0 24 24">
             <path :d="mdiCheckCircle" />
           </svg>
-          <span class="ml-1">{{ todoStore.doneList.length }}</span>
+          <span
+          data-testid="todos-done-count"
+          class="ml-1">{{ todoStore.doneList.length }}</span>
         </div>
       </div>
     </div>

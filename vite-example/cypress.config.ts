@@ -3,6 +3,7 @@ import { defineConfig } from "cypress";
 export default defineConfig({
 
   e2e: {
+    testIsolation: false,
     baseUrl: 'http://localhost:5173',
     defaultCommandTimeout: 1000,
     watchForFileChanges: true,
