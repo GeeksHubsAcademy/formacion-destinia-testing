@@ -1,16 +1,22 @@
-
-import { addTask } from "../steps/addTask";
 import { testId } from "../utils";
 
-describe('Test add todo feature', () => {
+import { addTask } from "../steps/addTask";
 
-  it('adds a task', () => {
+describe('Persistance', () => {
+
+  it('should persist the task', () => {
+
     const TEXT_TO_ADD = 'comprar-leche';
-    cy.visit('/');
 
+    cy.visit('/');
     addTask(TEXT_TO_ADD);
+
+    cy.reload();
+
     cy.get(testId('todos-list'))
       .find(testId(TEXT_TO_ADD))
       .should('have.text', TEXT_TO_ADD)
+
   })
+
 })
