@@ -1,18 +1,25 @@
 <?php
 class Order {
-    private $quantity;
-    private $itemPrice;
-    private $discountLevel;
-    private $shipping;
-    private $shippingDiscount;
+    public $quantity;
+    public $itemPrice;
+    public $discountLevel;
+    public $shipping;
+    public $shippingDiscount;
 
-    public function __construct($quantity, $itemPrice, $discountLevel, $shipping, $shippingDiscount) {
-        $this->quantity = $quantity;
-        $this->itemPrice = $itemPrice;
-        $this->discountLevel = $discountLevel;
-        $this->shipping = $shipping;
-        $this->shippingDiscount = $shippingDiscount;
+    public function __construct($params) {
+        $this->quantity = $params['quantity'];
+        $this->itemPrice = $params['itemPrice'];
+        $this->discountLevel = $params['discountLevel'];
+        $this->shipping = $params['shipping'];
+        $this->shippingDiscount = $params['shippingDiscount'];
+    //}
+    //     $this->quantity = $quantity;
+    //     $this->itemPrice = $itemPrice;
+    //     $this->discountLevel = $discountLevel;
+    //     $this->shipping = $shipping;
+    //     $this->shippingDiscount = $shippingDiscount;
     }
+
 
     public function calculateTotal() {
         $basePrice = $this->quantity * $this->itemPrice;
@@ -36,3 +43,6 @@ class Order {
         echo "Total: " . $total . "\n";
     }
 }
+
+$order = new Order(['quantity' => 100, 'itemPrice' => 10, 'discountLevel' => 1, 'shipping' => 5, 'shippingDiscount' => 1]);
+$order->printInvoice();
