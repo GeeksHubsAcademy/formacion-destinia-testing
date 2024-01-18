@@ -29,14 +29,14 @@
 
   - Refactoring Techniques:
     - Composing Methods:
-    - Extract Method.
-    - Inline Method.
-    - Inline Temp.
-    - Replace Temp with Query.
-    - Explaining Variable.
-    - Split Temporary Variable.
-    - Replace Magic Number with Constant
-    - Decompose Conditional.
+      - Extract Method.
+      - Inline Method.
+      - Inline Temp.
+      - Replace Temp with Query.
+      - Explaining Variable.
+      - Split Temporary Variable.
+      - Replace Magic Number with Constant
+      - Decompose Conditional.
     - Replace Nested Conditional with Guard Clauses
     - Remove Dead Code.
     - Moving Features Between Objects.
