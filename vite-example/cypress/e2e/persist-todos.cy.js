@@ -6,7 +6,7 @@ describe('Persistance', () => {
 
   it('should persist the task', () => {
 
-    const TEXT_TO_ADD = 'comprar-leche';
+    const TEXT_TO_ADD = 'comprar-leche' + Math.random();
 
     cy.visit('/');
     addTask(TEXT_TO_ADD);
