@@ -1,14 +1,15 @@
 <?php
 
 function upFirst($string) {
+
     return ucfirst($string);
 }
 
 
 function iAmPure($a, $b, $fn ) {
 
-
-    return $fn( 'hola' . $a . ' ' . $b);
+    $output =  $fn( 'hola' . $a . ' ' . $b);
+    return $output;
 }
 
 
