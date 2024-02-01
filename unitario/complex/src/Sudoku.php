@@ -23,20 +23,20 @@ class Sudoku
         return $array == $expected;
     }
 
-    public function isRowSolved($row)
+    private function isRowSolved($row)
     {
 
         $currentRow = $this->sudokuGrid[$row];
         return $this->isSolvedGeneric($currentRow);
     }
 
-    public function isColumnSolved($column)
+    private function isColumnSolved($column)
     {
         $currentColumn = $this->getColumn($column);
         return $this->isSolvedGeneric($currentColumn);
     }
 
-    public function isSubgridSolved($index)
+    private function isSubgridSolved($index)
     {
         // index 0 is first subgrid 3 x 3 top left
         // index 1 is second subgrid 3 x 3 top middle
@@ -142,7 +142,7 @@ class Sudoku
         }
         return $currentSubgrid;
     }
-    public function getRestValues($array)
+    private function getRestValues($array)
     {
         $restValues = [];
         for ($i = 1; $i <= 9; $i++) {
@@ -153,14 +153,14 @@ class Sudoku
         return $restValues;
     }
 
-    public function getSubgridIndex($column, $row)
+    private function getSubgridIndex($column, $row)
     {
         $subgridColumn = floor($column / 3);
         $subgridRow = floor($row / 3);
         return $subgridRow * 3 + $subgridColumn;
     }
 
-    public function setCellUniqueValue($column, $row)
+    private function setCellUniqueValue($column, $row)
     {
         $currentCell = $this->sudokuGrid[$row][$column];
         if ($currentCell !== 0) {
