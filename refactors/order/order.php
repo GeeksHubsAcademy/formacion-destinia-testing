@@ -13,9 +13,11 @@ class Order {
        array_push($this->items, array($item, $quantity));
        $this->total += $item->getPrice() * $quantity;
    }
+
    public function getTotal() {
        return $this->total;
    }
+
    public function printOrder() {
        echo "Customer: " . $this->customer->getName() . "\n";
        echo "Items:\n";
