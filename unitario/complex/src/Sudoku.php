@@ -3,14 +3,17 @@
 class Sudoku
 {
 
-    private $rows;
+
+    private $sudokuGrid = [];
+
+    public function __construct($sudokuGrid)
+    {
+        $this->sudokuGrid = $sudokuGrid;
+    }
+
     public function getGrid()
     {
-        return $this->rows;
-    }
-    public function __construct($rows)
-    {
-        $this->rows = $rows;
+        return $this->sudokuGrid;
     }
 
     public function isSolvedGeneric($array)
@@ -23,7 +26,7 @@ class Sudoku
     public function isRowSolved($row)
     {
 
-        $currentRow = $this->rows[$row];
+        $currentRow = $this->sudokuGrid[$row];
         return $this->isSolvedGeneric($currentRow);
     }
 
@@ -101,7 +104,7 @@ class Sudoku
 
     private function isRowValid($row)
     {
-        $currentRow = $this->rows[$row];
+        $currentRow = $this->sudokuGrid[$row];
 
         return $this->isValidGeneric($currentRow);
     }
@@ -120,7 +123,7 @@ class Sudoku
     private function getColumn($column)
     {
         $currentColumn = [];
-        foreach ($this->rows as $row) {
+        foreach ($this->sudokuGrid as $row) {
             $currentColumn[] = $row[$column];
         }
         return $currentColumn;
@@ -134,7 +137,7 @@ class Sudoku
 
         for ($i = $rowIndex; $i < $rowIndex + 3; $i++) {
             for ($j = $columnIndex; $j < $columnIndex + 3; $j++) {
-                $currentSubgrid[] = $this->rows[$i][$j];
+                $currentSubgrid[] = $this->sudokuGrid[$i][$j];
             }
         }
         return $currentSubgrid;
@@ -165,15 +168,15 @@ class Sudoku
 
     public function setCellUniqueValue($column, $row)
     {
-        $currentCell = $this->rows[$row][$column];
+        $currentCell = $this->sudokuGrid[$row][$column];
         if ($currentCell !== 0) {
             return false;
         }
-        $currentRow = $this->rows[$row];
+        $currentRow = $this->sudokuGrid[$row];
         $restRowValues = $this->getRestValues($currentRow);
 
         if (count($restRowValues) === 1) {
-            $this->rows[$row][$column] = array_values($restRowValues)[0];
+            $this->sudokuGrid[$row][$column] = array_values($restRowValues)[0];
             return true;
         }
 
@@ -183,7 +186,7 @@ class Sudoku
 
 
         if (count($restColumnValues) === 1) {
-            $this->rows[$row][$column] = array_values($restColumnValues)[0];
+            $this->sudokuGrid[$row][$column] = array_values($restColumnValues)[0];
             return true;
         }
 
@@ -192,7 +195,7 @@ class Sudoku
         $restSubgridValues = $this->getRestValues($currentSubgrid);
 
         if (count($restSubgridValues) === 1) {
-            $this->rows[$row][$column] = array_values($restSubgridValues)[0];
+            $this->sudokuGrid[$row][$column] = array_values($restSubgridValues)[0];
             return true;
         }
         return false;
@@ -214,14 +217,14 @@ class Sudoku
         return $changed;
     }
     public function isValidNumber($row, $col, $num) {
-        $this->rows[$row][$col] = $num;
+        $this->sudokuGrid[$row][$col] = $num;
 
         $isAllValid = $this->isValid();
         if ($isAllValid) {
-            $this->rows[$row][$col] = 0;
+            $this->sudokuGrid[$row][$col] = 0;
             return true;
         } else {
-            $this->rows[$row][$col] = 0;
+            $this->sudokuGrid[$row][$col] = 0;
 
             return false;
         }
@@ -233,14 +236,14 @@ class Sudoku
     {
         for ($row = 0; $row < 9; $row++) {
             for ($col = 0; $col < 9; $col++) {
-                if ($this->rows[$row][$col] === 0) {
+                if ($this->sudokuGrid[$row][$col] === 0) {
                     for ($num = 1; $num <= 9; $num++) {
                         if ($this->isValidNumber($row, $col, $num)) {
-                            $this->rows[$row][$col] = $num;
+                            $this->sudokuGrid[$row][$col] = $num;
                             if ($this->solve()) {
                                 return true;
                             }
-                            $this->rows[$row][$col] = 0; // Deshacer el intento si no funciona
+                            $this->sudokuGrid[$row][$col] = 0; // Deshacer el intento si no funciona
                         }
                     }
                     return false; // No se puede encontrar una solución válida
