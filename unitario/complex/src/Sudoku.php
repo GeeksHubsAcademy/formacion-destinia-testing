@@ -16,7 +16,7 @@ class Sudoku
         return $this->sudokuGrid;
     }
 
-    public function isSolvedGeneric($array)
+    private function isSolvedGeneric($array)
     {
         sort($array);
         $expected = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -153,12 +153,6 @@ class Sudoku
         return $restValues;
     }
 
-    public function setOnlyOptionValues()
-    {
-        // will perform iteration until there is no more changes
-
-
-    }
     public function getSubgridIndex($column, $row)
     {
         $subgridColumn = floor($column / 3);
@@ -216,7 +210,7 @@ class Sudoku
         }
         return $changed;
     }
-    public function isValidNumber($row, $col, $num) {
+    private function isValidNumber($row, $col, $num) {
         $this->sudokuGrid[$row][$col] = $num;
 
         $isAllValid = $this->isValid();
